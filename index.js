@@ -4,7 +4,7 @@ const dayjs = require('dayjs')
 const { Octokit } = require('@octokit/rest')
 const Axios = require('axios')
 
-const { WAKATIME_API_KEY, GH_TOKEN, GIST_ID, SCU_KEY } = process.env
+const { WAKATIME_API_KEY, GH_TOKEN, GIST_ID } = process.env
 const BASE_URL = 'https://wakatime.com/api/v1'
 const summariesApi = `${BASE_URL}/users/current/summaries`
 // const scuPushApi = `https://sc.ftqq.com`
