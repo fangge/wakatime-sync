@@ -795,11 +795,12 @@ module.exports = (function(e, t) {
     const s = r(629)
     const { Octokit: o } = r(0)
     const a = r(53)
-    const { WAKATIME_API_KEY: u, GH_TOKEN: p, GIST_ID: c } = process.env
-    const d = 'https://wakatime.com/api/v1'
-    const l = `${d}/users/current/summaries`
-    const m = new n(u)
-    const g = new o({ auth: `token ${p}` })
+    const { WAKATIME_API_KEY: u, GH_TOKEN: p, GIST_ID: c, SCU_KEY: d } = process.env
+    const l = 'https://wakatime.com/api/v1'
+    const m = `${l}/users/current/summaries`
+    const g = `https://sc.ftqq.com`
+    const h = new n(u)
+    const y = new o({ auth: `token ${p}` })
     function getItemContent(e, t) {
       let r = `#### ${e} \n`
       t.forEach(e => {
@@ -826,23 +827,30 @@ module.exports = (function(e, t) {
       try {
         const t = await getMySummary(e)
         await updateGist(e, t.data)
+        await sendMessageToWechat(`${e} update successfully!`, getMessageContent(e, t.data))
         console.log(`${e} update successfully!`, getMessageContent(e, t.data))
-      } catch (e) {
-        console.error(`Unable to fetch wakatime summary\n ${e} `)
+      } catch (t) {
+        console.error(`Unable to fetch wakatime summary\n ${t} `)
+        await sendMessageToWechat(`[${e}]failed to update wakatime data!`)
       }
     }
     function getMySummary(e) {
-      return a.get(l, { params: { start: e, end: e, api_key: u } }).then(e => e.data)
+      return a.get(m, { params: { start: e, end: e, api_key: u } }).then(e => e.data)
     }
     async function updateGist(e, t) {
       const r = ''
       try {
-        await g.gists.update({
+        await y.gists.update({
           gist_id: c,
           files: { [`summaries_${e}.json`]: { content: JSON.stringify(t) } }
         })
       } catch (e) {
         console.error(`Unable to update gist \n ${e}`)
+      }
+    }
+    async function sendMessageToWechat(e, t) {
+      if (typeof d !== 'undefined') {
+        return a.get(`${g}/${d}.send`, { params: { text: e, desp: t } }).then(e => e.data)
       }
     }
     main()
@@ -2535,11 +2543,11 @@ module.exports = (function(e, t) {
       var a =
         cmp(this.semver, '<', e.semver, t) &&
         (this.operator === '>=' || this.operator === '>') &&
-          (e.operator === '<=' || e.operator === '<')
+        (e.operator === '<=' || e.operator === '<')
       var u =
         cmp(this.semver, '>', e.semver, t) &&
         (this.operator === '<=' || this.operator === '<') &&
-          (e.operator === '>=' || e.operator === '>')
+        (e.operator === '>=' || e.operator === '>')
       return n || i || (s && o) || a || u
     }
     t.Range = Range
