@@ -2,11 +2,18 @@ name: WakaTime summary
 on:
   schedule:
     - cron: '00 09 * * *'
+
 jobs:
   update-gist:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Debug Info
+        run: |
+          echo "GH_TOKEN: ${{ secrets.GH_TOKEN }}"
+          echo "GIST_ID: ${{ secrets.GIST_ID }}"
+          echo "WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}"
+          echo "SCU_KEY: ${{ secrets.SCU_KEY }}"
       - name: Update gist
         uses: fangge/wakatime-sync@master
         env:
