@@ -42,14 +42,14 @@ async function main() {
   try {
     const mySummary = await getMySummary(yesterday)
     await updateGist(yesterday, mySummary.data)
-    await sendMessageToWechat(
-      `${yesterday} update successfully!`,
-      getMessageContent(yesterday, mySummary.data)
-    )
+    // await sendMessageToWechat(
+    //   `${yesterday} update successfully!`,
+    //   getMessageContent(yesterday, mySummary.data)
+    // )
     console.log(`${yesterday} update successfully!`, getMessageContent(yesterday, mySummary.data))
   } catch (error) {
     console.error(`Unable to fetch wakatime summary\n ${error} `)
-    await sendMessageToWechat(`[${yesterday}]failed to update wakatime data!`)
+    // await sendMessageToWechat(`[${yesterday}]failed to update wakatime data!`)
   }
 }
 
@@ -89,15 +89,15 @@ async function updateGist(date, content) {
  * @param {*} text 标题，最初256，必需
  * @param {*} desp 消息内容，最长64kb，可空
  */
-async function sendMessageToWechat(text, desp) {
-  if (typeof SCU_KEY !== 'undefined') {
-    return Axios.get(`${scuPushApi}/${SCU_KEY}.send`, {
-      params: {
-        text,
-        desp
-      }
-    }).then(response => response.data)
-  }
-}
+// async function sendMessageToWechat(text, desp) {
+//   if (typeof SCU_KEY !== 'undefined') {
+//     return Axios.get(`${scuPushApi}/${SCU_KEY}.send`, {
+//       params: {
+//         text,
+//         desp
+//       }
+//     }).then(response => response.data)
+//   }
+// }
 
 main()

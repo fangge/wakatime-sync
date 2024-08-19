@@ -1497,39 +1497,19 @@ module.exports = (function(e, t) {
   },
   215: function(e) {
     e.exports = {
-      _from: '@octokit/rest@16.43.1',
-      _id: '@octokit/rest@16.43.1',
-      _inBundle: false,
-      _integrity:
-        'sha512-gfFKwRT/wFxq5qlNjnW2dh+qh74XgTQ2B179UX5K1HYCluioWj8Ndbgqw2PVqa1NnVJkGHp2ovMpVn/DImlmkw==',
-      _location: '/@octokit/rest',
-      _phantomChildren: {},
-      _requested: {
-        type: 'version',
-        registry: true,
-        raw: '@octokit/rest@16.43.1',
-        name: '@octokit/rest',
-        escapedName: '@octokit%2frest',
-        scope: '@octokit',
-        rawSpec: '16.43.1',
-        saveSpec: null,
-        fetchSpec: '16.43.1'
-      },
-      _requiredBy: ['/'],
-      _resolved: 'https://npm.hypers.cc/@octokit%2frest/-/rest-16.43.1.tgz',
-      _shasum: '3b11e7d1b1ac2bbeeb23b08a17df0b20947eda6b',
-      _spec: '@octokit/rest@16.43.1',
-      _where: '/Users/yons/Developer/projects/wakatime-sync',
-      author: { name: 'Gregor Martynus', url: 'https://github.com/gr2m' },
-      bugs: { url: 'https://github.com/octokit/rest.js/issues' },
-      bundleDependencies: false,
-      bundlesize: [{ path: './dist/octokit-rest.min.js.gz', maxSize: '33 kB' }],
+      name: '@octokit/rest',
+      version: '16.43.1',
+      publishConfig: { access: 'public' },
+      description: 'GitHub REST API client for Node.js',
+      keywords: ['octokit', 'github', 'rest', 'api-client'],
+      author: 'Gregor Martynus (https://github.com/gr2m)',
       contributors: [
         { name: 'Mike de Boer', email: 'info@mikedeboer.nl' },
         { name: 'Fabian Jakobs', email: 'fabian@c9.io' },
         { name: 'Joe Gallo', email: 'joe@brassafrax.com' },
         { name: 'Gregor Martynus', url: 'https://github.com/gr2m' }
       ],
+      repository: 'https://github.com/octokit/rest.js',
       dependencies: {
         '@octokit/auth-token': '^2.4.0',
         '@octokit/plugin-paginate-rest': '^1.1.1',
@@ -1548,8 +1528,6 @@ module.exports = (function(e, t) {
         once: '^1.4.0',
         'universal-user-agent': '^4.0.0'
       },
-      deprecated: false,
-      description: 'GitHub REST API client for Node.js',
       devDependencies: {
         '@gimenete/type-writer': '^0.1.3',
         '@octokit/auth': '^1.1.1',
@@ -1585,49 +1563,44 @@ module.exports = (function(e, t) {
         'webpack-bundle-analyzer': '^3.0.0',
         'webpack-cli': '^3.0.0'
       },
-      files: ['index.js', 'index.d.ts', 'lib', 'plugins'],
-      homepage: 'https://github.com/octokit/rest.js#readme',
-      keywords: ['octokit', 'github', 'rest', 'api-client'],
+      types: 'index.d.ts',
+      scripts: {
+        coverage: 'nyc report --reporter=html && open coverage/index.html',
+        lint:
+          "prettier --check '{lib,plugins,scripts,test}/**/*.{js,json,ts}' 'docs/*.{js,json}' 'docs/src/**/*' index.js README.md package.json",
+        'lint:fix':
+          "prettier --write '{lib,plugins,scripts,test}/**/*.{js,json,ts}' 'docs/*.{js,json}' 'docs/src/**/*' index.js README.md package.json",
+        pretest: 'npm run -s lint',
+        test: 'nyc mocha test/mocha-node-setup.js "test/*/**/*-test.js"',
+        'test:browser': 'cypress run --browser chrome',
+        build: 'npm-run-all build:*',
+        'build:ts': 'npm run -s update-endpoints:typescript',
+        'prebuild:browser': 'mkdirp dist/',
+        'build:browser': 'npm-run-all build:browser:*',
+        'build:browser:development':
+          'webpack --mode development --entry . --output-library=Octokit --output=./dist/octokit-rest.js --profile --json > dist/bundle-stats.json',
+        'build:browser:production':
+          'webpack --mode production --entry . --plugin=compression-webpack-plugin --output-library=Octokit --output-path=./dist --output-filename=octokit-rest.min.js --devtool source-map',
+        'generate-bundle-report':
+          'webpack-bundle-analyzer dist/bundle-stats.json --mode=static --no-open --report dist/bundle-report.html',
+        'update-endpoints': 'npm-run-all update-endpoints:*',
+        'update-endpoints:fetch-json': 'node scripts/update-endpoints/fetch-json',
+        'update-endpoints:typescript': 'node scripts/update-endpoints/typescript',
+        'prevalidate:ts': 'npm run -s build:ts',
+        'validate:ts': 'tsc --target es6 --noImplicitAny index.d.ts',
+        'postvalidate:ts': 'tsc --noEmit --target es6 test/typescript-validate.ts',
+        'start-fixtures-server': 'octokit-fixtures-server'
+      },
       license: 'MIT',
-      name: '@octokit/rest',
+      files: ['index.js', 'index.d.ts', 'lib', 'plugins'],
       nyc: { ignore: ['test'] },
-      publishConfig: { access: 'public' },
       release: {
         publish: [
           '@semantic-release/npm',
           { path: '@semantic-release/github', assets: ['dist/*', '!dist/*.map.gz'] }
         ]
       },
-      repository: { type: 'git', url: 'git+https://github.com/octokit/rest.js.git' },
-      scripts: {
-        build: 'npm-run-all build:*',
-        'build:browser': 'npm-run-all build:browser:*',
-        'build:browser:development':
-          'webpack --mode development --entry . --output-library=Octokit --output=./dist/octokit-rest.js --profile --json > dist/bundle-stats.json',
-        'build:browser:production':
-          'webpack --mode production --entry . --plugin=compression-webpack-plugin --output-library=Octokit --output-path=./dist --output-filename=octokit-rest.min.js --devtool source-map',
-        'build:ts': 'npm run -s update-endpoints:typescript',
-        coverage: 'nyc report --reporter=html && open coverage/index.html',
-        'generate-bundle-report':
-          'webpack-bundle-analyzer dist/bundle-stats.json --mode=static --no-open --report dist/bundle-report.html',
-        lint:
-          "prettier --check '{lib,plugins,scripts,test}/**/*.{js,json,ts}' 'docs/*.{js,json}' 'docs/src/**/*' index.js README.md package.json",
-        'lint:fix':
-          "prettier --write '{lib,plugins,scripts,test}/**/*.{js,json,ts}' 'docs/*.{js,json}' 'docs/src/**/*' index.js README.md package.json",
-        'postvalidate:ts': 'tsc --noEmit --target es6 test/typescript-validate.ts',
-        'prebuild:browser': 'mkdirp dist/',
-        pretest: 'npm run -s lint',
-        'prevalidate:ts': 'npm run -s build:ts',
-        'start-fixtures-server': 'octokit-fixtures-server',
-        test: 'nyc mocha test/mocha-node-setup.js "test/*/**/*-test.js"',
-        'test:browser': 'cypress run --browser chrome',
-        'update-endpoints': 'npm-run-all update-endpoints:*',
-        'update-endpoints:fetch-json': 'node scripts/update-endpoints/fetch-json',
-        'update-endpoints:typescript': 'node scripts/update-endpoints/typescript',
-        'validate:ts': 'tsc --target es6 --noImplicitAny index.d.ts'
-      },
-      types: 'index.d.ts',
-      version: '16.43.1'
+      bundlesize: [{ path: './dist/octokit-rest.min.js.gz', maxSize: '33 kB' }]
     }
   },
   219: function(e, t, r) {
@@ -2089,10 +2062,10 @@ module.exports = (function(e, t) {
     a[A] = '(\\s*)' + a[R] + '\\s+'
     o[A] = new RegExp(a[A], 'g')
     var G = '$1~'
-    var D = u++
-    a[D] = '^' + a[R] + a[j] + '$'
     var L = u++
-    a[L] = '^' + a[R] + a[S] + '$'
+    a[L] = '^' + a[R] + a[j] + '$'
+    var D = u++
+    a[D] = '^' + a[R] + a[S] + '$'
     var F = u++
     a[F] = '(?:\\^)'
     var I = u++
@@ -2704,7 +2677,7 @@ module.exports = (function(e, t) {
         .join(' ')
     }
     function replaceTilde(e, t) {
-      var n = t.loose ? o[L] : o[D]
+      var n = t.loose ? o[D] : o[L]
       return e.replace(n, function(t, n, i, s, o) {
         r('tilde', e, t, n, i, s, o)
         var a
@@ -3233,12 +3206,12 @@ module.exports = (function(e, t) {
     const r = '1.1.2'
     const n = [
       /^\/search\//,
-      /^\/repos\/[^\/]+\/[^\/]+\/commits\/[^\/]+\/(check-runs|check-suites)([^\/]|$)/,
-      /^\/installation\/repositories([^\/]|$)/,
-      /^\/user\/installations([^\/]|$)/,
-      /^\/repos\/[^\/]+\/[^\/]+\/actions\/secrets([^\/]|$)/,
-      /^\/repos\/[^\/]+\/[^\/]+\/actions\/workflows(\/[^\/]+\/runs)?([^\/]|$)/,
-      /^\/repos\/[^\/]+\/[^\/]+\/actions\/runs(\/[^\/]+\/(artifacts|jobs))?([^\/]|$)/
+      /^\/repos\/[^/]+\/[^/]+\/commits\/[^/]+\/(check-runs|check-suites)([^/]|$)/,
+      /^\/installation\/repositories([^/]|$)/,
+      /^\/user\/installations([^/]|$)/,
+      /^\/repos\/[^/]+\/[^/]+\/actions\/secrets([^/]|$)/,
+      /^\/repos\/[^/]+\/[^/]+\/actions\/workflows(\/[^/]+\/runs)?([^/]|$)/,
+      /^\/repos\/[^/]+\/[^/]+\/actions\/runs(\/[^/]+\/(artifacts|jobs))?([^/]|$)/
     ]
     function normalizePaginatedListResponse(e, t, r) {
       const i = t.replace(e.request.endpoint.DEFAULTS.baseUrl, '')
@@ -3518,36 +3491,27 @@ module.exports = (function(e, t) {
   },
   361: function(e) {
     e.exports = {
-      _from: 'axios@0.18.1',
-      _id: 'axios@0.18.1',
-      _inBundle: false,
-      _integrity:
-        'sha512-0BfJq4NSfQXd+SkFdrvFbG7addhYSBA2mQwISr46pD6E5iqkWg02RAs8vyTT/j0RTnoYmeXauBuSv1qKwR179g==',
-      _location: '/axios',
-      _phantomChildren: {},
-      _requested: {
-        type: 'version',
-        registry: true,
-        raw: 'axios@0.18.1',
-        name: 'axios',
-        escapedName: 'axios',
-        rawSpec: '0.18.1',
-        saveSpec: null,
-        fetchSpec: '0.18.1'
-      },
-      _requiredBy: ['/'],
-      _resolved: 'https://npm.hypers.cc/axios/-/axios-0.18.1.tgz',
-      _shasum: 'ff3f0de2e7b5d180e757ad98000f1081b87bcea3',
-      _spec: 'axios@0.18.1',
-      _where: '/Users/yons/Developer/projects/wakatime-sync',
-      author: { name: 'Matt Zabriskie' },
-      browser: { './lib/adapters/http.js': './lib/adapters/xhr.js' },
-      bugs: { url: 'https://github.com/axios/axios/issues' },
-      bundleDependencies: false,
-      bundlesize: [{ path: './dist/axios.min.js', threshold: '5kB' }],
-      dependencies: { 'follow-redirects': '1.5.10', 'is-buffer': '^2.0.2' },
-      deprecated: false,
+      name: 'axios',
+      version: '0.18.1',
       description: 'Promise based HTTP client for the browser and node.js',
+      main: 'index.js',
+      scripts: {
+        test: 'grunt test && bundlesize',
+        start: 'node ./sandbox/server.js',
+        build: 'NODE_ENV=production grunt build',
+        preversion: 'npm test',
+        version:
+          'npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json',
+        postversion: 'git push && git push --tags',
+        examples: 'node ./examples/server.js',
+        coveralls: 'cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js'
+      },
+      repository: { type: 'git', url: 'https://github.com/axios/axios.git' },
+      keywords: ['xhr', 'http', 'ajax', 'promise', 'node'],
+      author: 'Matt Zabriskie',
+      license: 'MIT',
+      bugs: { url: 'https://github.com/axios/axios/issues' },
+      homepage: 'https://github.com/axios/axios',
       devDependencies: {
         bundlesize: '^0.5.7',
         coveralls: '^2.11.9',
@@ -3579,30 +3543,15 @@ module.exports = (function(e, t) {
         'load-grunt-tasks': '^3.5.2',
         minimist: '^1.2.0',
         sinon: '^1.17.4',
-        typescript: '^2.0.3',
-        'url-search-params': '^0.6.1',
         webpack: '^1.13.1',
-        'webpack-dev-server': '^1.14.1'
+        'webpack-dev-server': '^1.14.1',
+        'url-search-params': '^0.6.1',
+        typescript: '^2.0.3'
       },
-      homepage: 'https://github.com/axios/axios',
-      keywords: ['xhr', 'http', 'ajax', 'promise', 'node'],
-      license: 'MIT',
-      main: 'index.js',
-      name: 'axios',
-      repository: { type: 'git', url: 'git+https://github.com/axios/axios.git' },
-      scripts: {
-        build: 'NODE_ENV=production grunt build',
-        coveralls: 'cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js',
-        examples: 'node ./examples/server.js',
-        postversion: 'git push && git push --tags',
-        preversion: 'npm test',
-        start: 'node ./sandbox/server.js',
-        test: 'grunt test && bundlesize',
-        version:
-          'npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json'
-      },
+      browser: { './lib/adapters/http.js': './lib/adapters/xhr.js' },
       typings: './index.d.ts',
-      version: '0.18.1'
+      dependencies: { 'follow-redirects': '1.5.10', 'is-buffer': '^2.0.2' },
+      bundlesize: [{ path: './dist/axios.min.js', threshold: '5kB' }]
     }
   },
   363: function(e) {
@@ -5794,7 +5743,7 @@ module.exports = (function(e, t) {
     const u = r(280)
     const p = process.platform === 'win32'
     const c = /\.(?:com|exe)$/i
-    const d = /node_modules[\\\/].bin[\\\/][^\\\/]+\.cmd$/i
+    const d = /node_modules[\\/].bin[\\/][^\\/]+\.cmd$/i
     const l = i(() => u.satisfies(process.version, '^4.8.0 || ^5.7.0 || >= 6.0.0', true)) || false
     function detectShebang(e) {
       e.file = s(e)
@@ -7005,22 +6954,22 @@ module.exports = (function(e, t) {
             S.headers['Proxy-Authorization'] = 'Basic ' + G
           }
         }
-        var D
+        var L
         if (e.transport) {
-          D = e.transport
+          L = e.transport
         } else if (e.maxRedirects === 0) {
-          D = C ? a : o
+          L = C ? a : o
         } else {
           if (e.maxRedirects) {
             S.maxRedirects = e.maxRedirects
           }
-          D = C ? p : u
+          L = C ? p : u
         }
         if (e.maxContentLength && e.maxContentLength > -1) {
           S.maxBodyLength = e.maxContentLength
         }
-        var L = D.request(S, function handleResponse(n) {
-          if (L.aborted) return
+        var D = L.request(S, function handleResponse(n) {
+          if (D.aborted) return
           clearTimeout(f)
           f = null
           var s = n
@@ -7032,7 +6981,7 @@ module.exports = (function(e, t) {
               delete n.headers['content-encoding']
               break
           }
-          var o = n.req || L
+          var o = n.req || D
           var a = {
             status: n.statusCode,
             statusText: n.statusMessage,
@@ -7053,7 +7002,7 @@ module.exports = (function(e, t) {
               }
             })
             s.on('error', function handleStreamError(t) {
-              if (L.aborted) return
+              if (D.aborted) return
               r(g(t, e, null, o))
             })
             s.on('end', function handleStreamEnd() {
@@ -7066,27 +7015,27 @@ module.exports = (function(e, t) {
             })
           }
         })
-        L.on('error', function handleRequestError(t) {
-          if (L.aborted) return
-          r(g(t, e, null, L))
+        D.on('error', function handleRequestError(t) {
+          if (D.aborted) return
+          r(g(t, e, null, D))
         })
         if (e.timeout && !f) {
           f = setTimeout(function handleRequestTimeout() {
-            L.abort()
-            r(m('timeout of ' + e.timeout + 'ms exceeded', e, 'ECONNABORTED', L))
+            D.abort()
+            r(m('timeout of ' + e.timeout + 'ms exceeded', e, 'ECONNABORTED', D))
           }, e.timeout)
         }
         if (e.cancelToken) {
           e.cancelToken.promise.then(function onCanceled(e) {
-            if (L.aborted) return
-            L.abort()
+            if (D.aborted) return
+            D.abort()
             r(e)
           })
         }
         if (n.isStream(h)) {
-          h.pipe(L)
+          h.pipe(D)
         } else {
-          L.end(h)
+          D.end(h)
         }
       })
     }
@@ -15192,7 +15141,7 @@ module.exports = (function(e, t) {
       return t == '0' && 1 / e == -n ? '-0' : t
     }
     function castPath(e) {
-      return D(e) ? e : G(e)
+      return L(e) ? e : G(e)
     }
     function getMapData(e, t) {
       var r = e.__data__
@@ -15207,7 +15156,7 @@ module.exports = (function(e, t) {
       return !!t && (typeof e == 'number' || h.test(e)) && e > -1 && e % 1 == 0 && e < t
     }
     function isKey(e, t) {
-      if (D(e)) {
+      if (L(e)) {
         return false
       }
       var r = typeof e
@@ -15276,7 +15225,7 @@ module.exports = (function(e, t) {
     function eq(e, t) {
       return e === t || (e !== e && t !== t)
     }
-    var D = Array.isArray
+    var L = Array.isArray
     function isFunction(e) {
       var t = isObject(e) ? C.call(e) : ''
       return t == s || t == o
