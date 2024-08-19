@@ -798,7 +798,7 @@ module.exports = (function(e, t) {
     const { WAKATIME_API_KEY: u, GH_TOKEN: p, GIST_ID: c, SCU_KEY: d } = process.env
     const l = 'https://wakatime.com/api/v1'
     const m = `${l}/users/current/summaries`
-    const g = `https://sc.ftqq.com`
+    const g = `https://sctapi.ftqq.com`
     const h = new n(u)
     const y = new o({ auth: `token ${p}` })
     function getItemContent(e, t) {
@@ -850,7 +850,7 @@ module.exports = (function(e, t) {
     }
     async function sendMessageToWechat(e, t) {
       if (typeof d !== 'undefined') {
-        return a.get(`${g}/${d}.send`, { params: { text: e, desp: t } }).then(e => e.data)
+        return a.get(`${g}/${d}.send`, { params: { title: e, desp: t } }).then(e => e.data)
       }
     }
     main()
@@ -2543,11 +2543,11 @@ module.exports = (function(e, t) {
       var a =
         cmp(this.semver, '<', e.semver, t) &&
         (this.operator === '>=' || this.operator === '>') &&
-        (e.operator === '<=' || e.operator === '<')
+          (e.operator === '<=' || e.operator === '<')
       var u =
         cmp(this.semver, '>', e.semver, t) &&
         (this.operator === '<=' || this.operator === '<') &&
-        (e.operator === '>=' || e.operator === '>')
+          (e.operator === '>=' || e.operator === '>')
       return n || i || (s && o) || a || u
     }
     t.Range = Range
