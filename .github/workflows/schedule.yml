@@ -2,7 +2,7 @@ name: WakaTime summary
 on:
   push: # 每次提交时触发
   schedule:
-    - cron: '00 09 * * *'
+    - cron: '00 15 * * *'
 
 jobs:
   update-gist:
